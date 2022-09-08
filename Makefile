@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+         #
+#    By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/02 02:31:01 by ankasamanya       #+#    #+#              #
-#    Updated: 2022/09/02 02:50:30 by ankasamanya      ###   ########.fr        #
+#    Updated: 2022/09/02 14:25:05 by akasaman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ all: $(NAME)
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
-	@echo "\033[92m.\033[0m\c"
+	@echo "\033[92m•\033[0m\c"
 
 $(NAME): $(OBJ) $(SRC)
 	@$(MAKE) -C Libft
