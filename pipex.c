@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
+/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/09 17:19:52 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/09 18:03:22 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,46 @@ char	*find_big_path(char	**env)
 	return (NULL); //???????
 }
 
-char	*find_lil_path(char *big_path, char *command, t_vars *vars)
+char	*find_lil_path(char *big_path, t_vars *vars)
 {
 	char	**smoll_pathsies;
 	char	*lil_path;
 
 	smoll_pathsies = ft_split(big_path, ':');
-	vars->command = ft_split(command, ' ');
 	while (*smoll_pathsies)
 	{
 		lil_path = ft_strjoin(*smoll_pathsies++, ft_strjoin("/", vars->command[0]));
 		if (access( lil_path, F_OK) == 0)
 			vars->full_path = lil_path;
 	}
+	// while (*smoll_pathsies)
+	// 	free(*smoll_pathsies++);
 	return (NULL); //???????
+}
+
+void	execute_command(t_vars *vars, char **env)
+{
+	vars->command = ft_split(vars->argv[vars->count], ' ');
+	execve(vars->full_path, vars->command, env);
+	printf("halp");
 }
 
 int main(int argc, char *argv[], char *env[])
 {
 	t_vars	vars;
+	// char	*big_path;
+	vars.argv = argv;
+	vars.count = 1; //временно
 	if (argc == 0)
 		return 0;
-	//find an executable in the path thingy 
-	// printf("%s\n", argv[0]); 
+	// printf("%s\n", argv[0]);
+	
+	// big_path = find_big_path(env);
+	find_lil_path(find_big_path(env), &vars);
+	//execute da thingy
+	execute_command(&vars, env);
+	if (vars.full_path)
+		printf("\nthis would be the lil path: %s\n",vars.full_path);
 
 	// int i;
 	
@@ -54,16 +71,6 @@ int main(int argc, char *argv[], char *env[])
 	// 	//сплит
 		
 	// }
-	
-	char	*big_path;
-	char	*lil_path;
-
-	big_path = find_big_path(env);
-		// printf("%s\n",big_path);
-	lil_path = find_lil_path(big_path, argv[1], &vars);
-	// if (lil_path)
-		printf("\nthis would be the lil path: %s\n",lil_path);
-
 	
 	// while(*env)
 	// 	printf("%s\n",*env++);
