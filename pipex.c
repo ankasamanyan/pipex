@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
+/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/09 09:07:14 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/09 16:11:44 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,24 @@ char	*find_big_path(char	**env)
 	return (NULL); //???????
 }
 
-char	*find_lil_path(char *big_path, char *command)
+char	*find_lil_path(char *big_path, char *command, t_vars *vars)
 {
 	char	**smoll_pathsies;
-	char	*lil_path;
-	int		i;
 
-	i = 0;
 	smoll_pathsies = ft_split(big_path, ':');
-	while (smoll_pathsies[i])
+	vars->command = ft_split(command, ' ');
+	while (*smoll_pathsies)
 	{
-		lil_path = ft_strjoin(smoll_pathsies[i], ft_strjoin("/", command));
-		// printf("\n%s\n\n", lil_path);
-		if (access( lil_path, F_OK) == 1)
-		{
-			printf("Halp");
-			return (lil_path);
-		}
-		i++;
+		vars->full_path = ft_strjoin(*smoll_pathsies++, ft_strjoin("/", vars->command[0]));
+		if (access( vars->full_path, F_OK) == 0)
+			return (vars->full_path);
 	}
 	return (NULL); //???????
 }
 
 int main(int argc, char *argv[], char *env[])
 {
+	t_vars	vars;
 	if (argc == 0)
 		return 0;
 	//find an executable in the path thingy 
@@ -64,9 +58,9 @@ int main(int argc, char *argv[], char *env[])
 	char	*lil_path;
 
 	big_path = find_big_path(env);
-		printf("%s\n",big_path);
-	lil_path = find_lil_path(big_path, argv[1]);
-	if (lil_path)
+		// printf("%s\n",big_path);
+	lil_path = find_lil_path(big_path, argv[1], &vars);
+	// if (lil_path)
 		printf("\nthis would be the lil path: %s\n",lil_path);
 
 	
