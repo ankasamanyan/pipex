@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/09 16:11:44 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:19:52 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ char	*find_big_path(char	**env)
 char	*find_lil_path(char *big_path, char *command, t_vars *vars)
 {
 	char	**smoll_pathsies;
+	char	*lil_path;
 
 	smoll_pathsies = ft_split(big_path, ':');
 	vars->command = ft_split(command, ' ');
 	while (*smoll_pathsies)
 	{
-		vars->full_path = ft_strjoin(*smoll_pathsies++, ft_strjoin("/", vars->command[0]));
-		if (access( vars->full_path, F_OK) == 0)
-			return (vars->full_path);
+		lil_path = ft_strjoin(*smoll_pathsies++, ft_strjoin("/", vars->command[0]));
+		if (access( lil_path, F_OK) == 0)
+			vars->full_path = lil_path;
 	}
 	return (NULL); //???????
 }
