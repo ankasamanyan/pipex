@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
+/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:49 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/10 16:11:15 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/11 18:26:35 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,21 @@
 
 typedef struct s_vars
 {
-    char    **command;
-	char	**env;
-    char    *full_path;
     char    **argv;
+	char	**env;
+    char    **command;
+    char    *full_path;
+	int		argc;
     int     count;
 	int		pipe[2];
 	int		input_file;
 	int		output_file;
+	int		index;
 	int		pid;
 }   t_vars;
 
+/* initialization */
+void	init(t_vars *vars, int argc, char **argv, char **env);
 /* find paths */
 char	*find_big_path(char	**env);
 char	*find_lil_path(char *big_path, t_vars *vars);
