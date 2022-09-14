@@ -6,7 +6,7 @@
 #    By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/05 01:24:17 by ankasamanya       #+#    #+#              #
-#    Updated: 2022/09/02 14:24:47 by akasaman         ###   ########.fr        #
+#    Updated: 2022/09/14 18:30:38 by akasaman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,8 @@ SRC =	ft_strnstr.c \
 		ft_lstclear.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
+		ft_free_arrays.c \
+		ft_triple_strjoin.c \
 		ft_printf/ft_counthex.c \
 		ft_printf/ft_intlen.c \
 		ft_printf/ft_printu.c \
