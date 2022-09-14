@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+         #
+#    By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/02 02:31:01 by ankasamanya       #+#    #+#              #
-#    Updated: 2022/09/02 14:25:05 by akasaman         ###   ########.fr        #
+#    Updated: 2022/09/14 10:44:00 by ankasamanya      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRC =	pipex.c 
+SRC =	pipex.c pipex_bonus.c
 OBJ =	$(SRC:.c=.o)
 
 CC = gcc
