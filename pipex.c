@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/14 19:55:20 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/19 19:26:14 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,21 @@ void	init(t_vars *vars, int argc, char **argv, char **env)
 	vars->env = env;
 	vars->argc = argc;
 	vars->index = 1;
+	vars->here_doc = 0;
+	vars->temp_pipe = 1;
 	vars->input_file = open(argv[1], O_RDONLY);
 	if (vars->input_file == -1)
 		perror("Input file error");
-	vars->output_file = open(argv[argc - 1],
-			O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+	{
+		vars->here_doc = 1;
+		vars->index = 2;
+		vars->output_file = open(argv[argc - 1],
+				O_WRONLY | O_APPEND | O_CREAT, 0777);
+	}
+	else
+		vars->output_file = open(argv[argc - 1],
+				O_WRONLY | O_TRUNC | O_CREAT, 0777);
 }
 
 void	find_lil_path(char *big_path, t_vars *vars)
@@ -56,15 +66,28 @@ void	find_lil_path(char *big_path, t_vars *vars)
 
 void	kiddi_process(t_vars *vars)
 {
-	if (vars->index == 2)
-		dup2(vars->input_file, STDIN_FILENO);
-	else
-		dup2(vars->temp_pipe, STDIN_FILENO);
+	if (vars->here_doc == 0)
+	{
+		if (vars->index == 2)
+			dup2(vars->input_file, STDIN_FILENO);
+		else
+			dup2(vars->temp_pipe, STDIN_FILENO);
+	}
+	else if (vars->here_doc == 0)
+	{
+		if (vars->index > 2)
+			dup2(vars->temp_pipe, STDIN_FILENO);
+	}
+	
+
+	
 	if (vars->index == vars->argc - 2)
 		dup2(vars->output_file, STDOUT_FILENO);
 	else
 		dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	close(vars->pipe[READ_PIPE]);
+	// printf("Read pipe kiddi: %i\n", vars->pipe[READ_PIPE]);
+	// printf("Write pipe kiddi: %i\n", vars->pipe[WRITE_PIPE]);
 	execve(vars->full_path, vars->command, vars->env);
 }
 
@@ -81,11 +104,19 @@ void	pipex(t_vars *vars)
 		}
 		vars->pid = fork();
 		if (vars->pid == 0)
+		{
+			// printf("Read pipe before kiddi: %i\n", vars->pipe[READ_PIPE]);
+			// printf("Write pipe before kiddi: %i\n", vars->pipe[WRITE_PIPE]);
 			kiddi_process(vars);
+		}
 		else
 		{
 			waitpid(-1, NULL, WNOHANG);
+			close(vars->pipe[vars->temp_pipe]);
 			vars->temp_pipe = vars->pipe[READ_PIPE];
+			close(vars->pipe[WRITE_PIPE]);
+			// printf("Read pipe parent: %i\n", vars->pipe[READ_PIPE]);
+			// printf("Write pipe parent: %i\n", vars->pipe[WRITE_PIPE]);
 			ft_free_array(vars->command);
 			free(vars->full_path);
 		}
@@ -97,13 +128,20 @@ int	main(int argc, char *argv[], char *env[])
 	t_vars	vars;
 
 	init(&vars, argc, argv, env);
+	if (argc < 4)
+	{
+		write(2, "Error: wrong number of arguments", 33);
+		return (0);
+	}
 	while (*env)
 		if (ft_strncmp(*env++, "PATH=", 5) == 0)
 			vars.big_path = (*(env - 1) + 5);
-	if (argc == 0)
-		return (0);
 	pipex(&vars);
 	close(vars.input_file);
 	close(vars.output_file);
+	// printf("Read pipe end: %i\n", vars.pipe[READ_PIPE]);
+	// printf("Write pipe end: %i\n", vars.pipe[WRITE_PIPE]);
+	// printf("input fd: %i\n", vars.input_file);
+	// printf("output fd: %i\n", vars.output_file);
 	return (0);
 }
