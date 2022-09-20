@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 16:03:33 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/20 19:50:44 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:12:48 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

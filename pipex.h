@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:49 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/20 19:27:45 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:13:51 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_vars
 	int		index;
 	int		pid;
 	int		here_doc;
-	// int		heredoc_pipe[2];
 }	t_vars;
 
 /* initialization */
@@ -45,6 +44,6 @@ void	pipex(t_vars *vars);
 /* command */
 void	kiddi_process(t_vars *vars);
 /* bonus */
-int	here_doc_thingy(t_vars *vars);
+int		here_doc_thingy(t_vars *vars);
 
 #endif
