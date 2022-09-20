@@ -6,7 +6,7 @@
 /*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/19 19:38:54 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/20 20:18:58 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,22 @@ void	init(t_vars *vars, int argc, char **argv, char **env)
 	vars->index = 1;
 	vars->here_doc = 0;
 	vars->temp_pipe = 1;
-	vars->input_file = open(argv[1], O_RDONLY);
-	if (vars->input_file == -1)
-		perror("Input file error");
 	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
 	{
 		vars->here_doc = 1;
 		vars->index = 2;
+		vars->input_file = here_doc_thingy(vars);
 		vars->output_file = open(argv[argc - 1],
 				O_WRONLY | O_APPEND | O_CREAT, 0777);
 	}
 	else
+	{
 		vars->output_file = open(argv[argc - 1],
 				O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		vars->input_file = open(argv[1], O_RDONLY);
+		if (vars->input_file == -1)
+			perror("Input file error");
+	}
 }
 
 void	find_lil_path(char *big_path, t_vars *vars)
@@ -73,9 +76,11 @@ void	kiddi_process(t_vars *vars)
 		else
 			dup2(vars->temp_pipe, STDIN_FILENO);
 	}
-	else if (vars->here_doc == 0)
+	else if (vars->here_doc != 0)
 	{
-		if (vars->index > 2)
+		if (vars->index == 3)
+			dup2(vars->input_file, STDIN_FILENO);
+		else
 			dup2(vars->temp_pipe, STDIN_FILENO);
 	}
 	if (vars->index == vars->argc - 2)
@@ -89,7 +94,7 @@ void	kiddi_process(t_vars *vars)
 void	pipex(t_vars *vars)
 {
 	while (vars->index++ <= vars->argc - 3)
-	{	
+	{
 		pipe(vars->pipe);
 		find_lil_path(vars->big_path, vars);
 		if (vars->full_path == NULL)
