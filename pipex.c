@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
+/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/19 19:26:14 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/19 19:38:54 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,11 @@ void	kiddi_process(t_vars *vars)
 		if (vars->index > 2)
 			dup2(vars->temp_pipe, STDIN_FILENO);
 	}
-	
-
-	
 	if (vars->index == vars->argc - 2)
 		dup2(vars->output_file, STDOUT_FILENO);
 	else
 		dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	close(vars->pipe[READ_PIPE]);
-	// printf("Read pipe kiddi: %i\n", vars->pipe[READ_PIPE]);
-	// printf("Write pipe kiddi: %i\n", vars->pipe[WRITE_PIPE]);
 	execve(vars->full_path, vars->command, vars->env);
 }
 
@@ -104,19 +99,14 @@ void	pipex(t_vars *vars)
 		}
 		vars->pid = fork();
 		if (vars->pid == 0)
-		{
-			// printf("Read pipe before kiddi: %i\n", vars->pipe[READ_PIPE]);
-			// printf("Write pipe before kiddi: %i\n", vars->pipe[WRITE_PIPE]);
 			kiddi_process(vars);
-		}
 		else
 		{
 			waitpid(-1, NULL, WNOHANG);
-			close(vars->pipe[vars->temp_pipe]);
+			if (vars->temp_pipe != 1)
+				close(vars->pipe[vars->temp_pipe]);
 			vars->temp_pipe = vars->pipe[READ_PIPE];
 			close(vars->pipe[WRITE_PIPE]);
-			// printf("Read pipe parent: %i\n", vars->pipe[READ_PIPE]);
-			// printf("Write pipe parent: %i\n", vars->pipe[WRITE_PIPE]);
 			ft_free_array(vars->command);
 			free(vars->full_path);
 		}
@@ -139,9 +129,5 @@ int	main(int argc, char *argv[], char *env[])
 	pipex(&vars);
 	close(vars.input_file);
 	close(vars.output_file);
-	// printf("Read pipe end: %i\n", vars.pipe[READ_PIPE]);
-	// printf("Write pipe end: %i\n", vars.pipe[WRITE_PIPE]);
-	// printf("input fd: %i\n", vars.input_file);
-	// printf("output fd: %i\n", vars.output_file);
 	return (0);
 }
