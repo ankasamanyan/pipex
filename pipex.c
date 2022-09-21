@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/20 20:18:58 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:18:57 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,12 @@ int	main(int argc, char *argv[], char *env[])
 {
 	t_vars	vars;
 
-	init(&vars, argc, argv, env);
 	if (argc < 4)
 	{
 		write(2, "Error: wrong number of arguments", 33);
 		return (0);
 	}
+	init(&vars, argc, argv, env);
 	while (*env)
 		if (ft_strncmp(*env++, "PATH=", 5) == 0)
 			vars.big_path = (*(env - 1) + 5);
