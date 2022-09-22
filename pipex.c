@@ -6,7 +6,7 @@
 /*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/20 20:18:58 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:57:31 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	pipex(t_vars *vars)
 		{
 			waitpid(-1, NULL, WNOHANG);
 			if (vars->temp_pipe != 1)
-				close(vars->pipe[vars->temp_pipe]);
+				close(vars->temp_pipe);
 			vars->temp_pipe = vars->pipe[READ_PIPE];
 			close(vars->pipe[WRITE_PIPE]);
 			ft_free_array(vars->command);
@@ -134,5 +134,6 @@ int	main(int argc, char *argv[], char *env[])
 	pipex(&vars);
 	close(vars.input_file);
 	close(vars.output_file);
+	close(vars.temp_pipe);
 	return (0);
 }
