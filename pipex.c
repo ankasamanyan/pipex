@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 02:43:57 by ankasamanya       #+#    #+#             */
-/*   Updated: 2022/09/20 21:18:57 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/22 15:33:47 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	init(t_vars *vars, int argc, char **argv, char **env)
 	}
 	else
 	{
-		vars->output_file = open(argv[argc - 1],
-				O_WRONLY | O_TRUNC | O_CREAT, 0777);
 		vars->input_file = open(argv[1], O_RDONLY);
 		if (vars->input_file == -1)
 			perror("Input file error");
+		vars->output_file = open(argv[argc - 1],
+				O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	}
 }
 
@@ -69,12 +69,17 @@ void	find_lil_path(char *big_path, t_vars *vars)
 
 void	kiddi_process(t_vars *vars)
 {
+	// printf("command = %s\n", vars->argv[vars->index]);
 	if (vars->here_doc == 0)
 	{
 		if (vars->index == 2)
 			dup2(vars->input_file, STDIN_FILENO);
 		else
 			dup2(vars->temp_pipe, STDIN_FILENO);
+		if (vars->index == vars->argc - 2)
+			dup2(vars->output_file, STDOUT_FILENO);
+		else
+			dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	}
 	else if (vars->here_doc != 0)
 	{
@@ -82,13 +87,15 @@ void	kiddi_process(t_vars *vars)
 			dup2(vars->input_file, STDIN_FILENO);
 		else
 			dup2(vars->temp_pipe, STDIN_FILENO);
+		if (vars->index == vars->argc - 2)
+			dup2(vars->output_file, STDOUT_FILENO);
+		else
+			dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	}
-	if (vars->index == vars->argc - 2)
-		dup2(vars->output_file, STDOUT_FILENO);
-	else
-		dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	close(vars->pipe[READ_PIPE]);
 	execve(vars->full_path, vars->command, vars->env);
+	perror("execve error");
+	exit(-1);
 }
 
 void	pipex(t_vars *vars)
@@ -109,7 +116,10 @@ void	pipex(t_vars *vars)
 		{
 			waitpid(-1, NULL, WNOHANG);
 			if (vars->temp_pipe != 1)
-				close(vars->pipe[vars->temp_pipe]);
+			{
+				// printf("i am closing over heaaa\n");
+				// close(vars->temp_pipe);
+			}
 			vars->temp_pipe = vars->pipe[READ_PIPE];
 			close(vars->pipe[WRITE_PIPE]);
 			ft_free_array(vars->command);

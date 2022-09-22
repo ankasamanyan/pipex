@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 16:03:33 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/21 01:59:55 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/22 15:33:39 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	here_doc_thingy(t_vars *vars)
 	int		pipy[2];
 
 	pipe(pipy);
-	printf("argv strlen: %zu\n", ft_strlen(vars->argv[2]));
 	while (1)
 	{
 		stringy = get_next_line(STDIN_FILENO);
@@ -31,5 +30,6 @@ int	here_doc_thingy(t_vars *vars)
 	}
 	free(stringy);
 	close(pipy[WRITE_PIPE]);
+	// printf("apparently %s\n",get_next_line(pipy[READ_PIPE]));
 	return (pipy[READ_PIPE]);
 }
