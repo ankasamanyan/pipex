@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 16:03:33 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/22 15:33:39 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/22 19:04:52 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@ int	here_doc_thingy(t_vars *vars)
 	}
 	free(stringy);
 	close(pipy[WRITE_PIPE]);
-	// printf("apparently %s\n",get_next_line(pipy[READ_PIPE]));
 	return (pipy[READ_PIPE]);
 }

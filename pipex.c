@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:08:26 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/22 16:08:50 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:11:13 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,12 @@ void	find_lil_path(char *big_path, t_vars *vars)
 
 void	kiddi_process(t_vars *vars)
 {
-	// printf("command = %s\n", vars->argv[vars->index]);
 	if (vars->here_doc == 0)
 	{
 		if (vars->index == 2)
 			dup2(vars->input_file, STDIN_FILENO);
 		else
 			dup2(vars->temp_pipe, STDIN_FILENO);
-		if (vars->index == vars->argc - 2)
-			dup2(vars->output_file, STDOUT_FILENO);
-		else
-			dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	}
 	else if (vars->here_doc != 0)
 	{
@@ -87,11 +82,11 @@ void	kiddi_process(t_vars *vars)
 			dup2(vars->input_file, STDIN_FILENO);
 		else
 			dup2(vars->temp_pipe, STDIN_FILENO);
-		if (vars->index == vars->argc - 2)
-			dup2(vars->output_file, STDOUT_FILENO);
-		else
-			dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	}
+	if (vars->index == vars->argc - 2)
+		dup2(vars->output_file, STDOUT_FILENO);
+	else
+		dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	close(vars->pipe[READ_PIPE]);
 	execve(vars->full_path, vars->command, vars->env);
 	perror("execve error");
