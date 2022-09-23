@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:08:26 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/22 19:11:13 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/23 17:13:41 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ void	pipex(t_vars *vars)
 		find_lil_path(vars->big_path, vars);
 		if (vars->full_path == NULL)
 		{
-			perror("Command error");
+			perror(vars->argv[vars->index]);
+			vars->temp_pipe = vars->pipe[READ_PIPE];
+			close(vars->pipe[WRITE_PIPE]);
 			continue ;
 		}
 		vars->pid = fork();
@@ -124,7 +126,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	t_vars	vars;
 
-	if (argc < 4)
+	if (argc < 5)
 	{
 		write(2, "Error: wrong number of arguments", 33);
 		return (0);
