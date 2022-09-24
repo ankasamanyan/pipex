@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:08:26 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/23 17:13:41 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/23 20:25:35 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ void	init(t_vars *vars, int argc, char **argv, char **env)
 	else
 	{
 		vars->input_file = open(argv[1], O_RDONLY);
-		if (vars->input_file == -1)
-			perror("Input file error");
 		vars->output_file = open(argv[argc - 1],
 				O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	}
+	if (vars->input_file < 0 || vars->output_file < 0)
+	{
+		perror("Input/output file error");
+		exit(-1);
 	}
 }
 
