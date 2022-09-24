@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:08:26 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/23 20:25:35 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/24 23:45:14 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ void	init(t_vars *vars, int argc, char **argv, char **env)
 		vars->output_file = open(argv[argc - 1],
 				O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	}
-	if (vars->input_file < 0 || vars->output_file < 0)
-	{
-		perror("Input/output file error");
-		exit(-1);
-	}
+	halp(vars);
 }
 
 void	find_lil_path(char *big_path, t_vars *vars)

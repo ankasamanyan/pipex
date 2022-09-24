@@ -6,7 +6,7 @@
 /*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 16:03:33 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/22 19:04:52 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/24 23:44:46 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,15 @@ int	here_doc_thingy(t_vars *vars)
 	free(stringy);
 	close(pipy[WRITE_PIPE]);
 	return (pipy[READ_PIPE]);
+}
+
+void	halp(t_vars *vars)
+{
+	if (vars->input_file < 0 || vars->output_file < 0)
+	{
+		perror("Input/output file error");
+		pipe(vars->pipe);
+		close(vars->pipe[WRITE_PIPE]);
+		vars->input_file = vars->pipe[READ_PIPE];
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:08:59 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/22 16:09:02 by akasaman         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:45:50 by ankasamanya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ void	pipex(t_vars *vars);
 void	kiddi_process(t_vars *vars);
 /* bonus */
 int		here_doc_thingy(t_vars *vars);
+/* halp */
+void	halp(t_vars *vars);
 
 #endif
