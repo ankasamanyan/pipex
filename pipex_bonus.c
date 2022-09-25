@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
+/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 16:03:33 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/24 23:44:46 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/25 20:14:33 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,16 @@ int	here_doc_thingy(t_vars *vars)
 
 void	halp(t_vars *vars)
 {
-	if (vars->input_file < 0 || vars->output_file < 0)
+	if (vars->input_file < 0)
 	{
-		perror("Input/output file error");
+		perror("Inputfile error");
 		pipe(vars->pipe);
 		close(vars->pipe[WRITE_PIPE]);
 		vars->input_file = vars->pipe[READ_PIPE];
+	}
+	if (vars->output_file < 0)
+	{
+		perror("Output file error");
+		exit(-1);
 	}
 }

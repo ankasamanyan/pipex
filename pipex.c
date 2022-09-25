@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankasamanyan <ankasamanyan@student.42.f    +#+  +:+       +#+        */
+/*   By: akasaman <akasaman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:08:26 by akasaman          #+#    #+#             */
-/*   Updated: 2022/09/24 23:45:14 by ankasamanya      ###   ########.fr       */
+/*   Updated: 2022/09/25 20:09:09 by akasaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	kiddi_process(t_vars *vars)
 			dup2(vars->temp_pipe, STDIN_FILENO);
 	}
 	if (vars->index == vars->argc - 2)
+	{
 		dup2(vars->output_file, STDOUT_FILENO);
+		// perror("HAAAALP");
+	}
 	else
 		dup2(vars->pipe[WRITE_PIPE], STDOUT_FILENO);
 	close(vars->pipe[READ_PIPE]);
